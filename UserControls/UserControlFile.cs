@@ -76,8 +76,8 @@ namespace MasterTrainingRecordsApp
             DataGridViewTrainingRecord.Columns[5].FillWeight = 8;
             DataGridViewTrainingRecord.Columns[6].FillWeight = 10;
             DataGridViewTrainingRecord.Columns[7].FillWeight = 10;
-            DataGridViewTrainingRecord.Columns[8].FillWeight = 9;
-            DataGridViewTrainingRecord.Columns[9].FillWeight = 9;
+            DataGridViewTrainingRecord.Columns[8].FillWeight = 6;
+            DataGridViewTrainingRecord.Columns[9].FillWeight = 6;
 
             // Configure readonly property and colors
             int[] columns = { 0 };

@@ -9,7 +9,7 @@ namespace MasterTrainingRecordsApp
         public MainForm()
         {
             InitializeComponent();
-
+            
             // Initialization
             SaveButtonsEnabled(false);
             this.FormClosing += MenuItemCloseFile_Click;

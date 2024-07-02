@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Office.Interop.Excel;
 using Newtonsoft.Json;
 using OfficeOpenXml;
@@ -207,7 +208,7 @@ namespace MasterTrainingRecordsApp
             worksheet.DefaultColWidth = 9;
             worksheet.Column(1).Width = 32;
             worksheet.Column(2).Width = 32;
-            worksheet.DefaultRowHeight = 25;
+            worksheet.DefaultRowHeight = 20;
             worksheet.DefaultColWidth = 10;
             worksheet.Columns.Style.WrapText = true;
             worksheet.Columns.Style.Font.Size = 9;
@@ -220,6 +221,11 @@ namespace MasterTrainingRecordsApp
             worksheet.Row(3).Height = 38;
             worksheet.Row(3).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             worksheet.Row(3).Style.Font.Bold = true;
+            worksheet.Column(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            worksheet.Column(2).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            worksheet.Cells["A1:J3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            worksheet.Cells["B1:B2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            worksheet.Cells["E1:E2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
             // Apply styles to specific cells and ranges
             worksheet.Cells["A1:A2"].Style.Font.Size = 11;

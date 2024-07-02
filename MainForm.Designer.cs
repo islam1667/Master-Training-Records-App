@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemNewFile = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemOpenFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,24 +45,24 @@
             this.MenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemSource = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainFormPanel = new System.Windows.Forms.Panel();
+            this.MainFormPanel = new System.Windows.Forms.Panel();
             this.UserControlHomePage = new MasterTrainingRecordsApp.UserControlHome();
             this.UserControlFilePage = new MasterTrainingRecordsApp.UserControlFile();
             this.UserControlHelpPage = new MasterTrainingRecordsApp.UserControlHelp();
-            this.menuStrip.SuspendLayout();
-            this.mainFormPanel.SuspendLayout();
+            this.MenuStrip.SuspendLayout();
+            this.MainFormPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip
+            // MenuStrip
             // 
-            resources.ApplyResources(this.menuStrip, "menuStrip");
-            this.menuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.menuStrip.GripMargin = new System.Windows.Forms.Padding(0);
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            resources.ApplyResources(this.MenuStrip, "MenuStrip");
+            this.MenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.MenuStrip.GripMargin = new System.Windows.Forms.Padding(0);
+            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuItemFile,
             this.MenuItemSource,
             this.MenuItemHelp});
-            this.menuStrip.Name = "menuStrip";
+            this.MenuStrip.Name = "MenuStrip";
             // 
             // MenuItemFile
             // 
@@ -182,13 +182,13 @@
             this.MenuItemHelp.Name = "MenuItemHelp";
             this.MenuItemHelp.Click += new System.EventHandler(this.MenuItemHelp_Click);
             // 
-            // mainFormPanel
+            // MainFormPanel
             // 
-            resources.ApplyResources(this.mainFormPanel, "mainFormPanel");
-            this.mainFormPanel.Controls.Add(this.UserControlHomePage);
-            this.mainFormPanel.Controls.Add(this.UserControlFilePage);
-            this.mainFormPanel.Controls.Add(this.UserControlHelpPage);
-            this.mainFormPanel.Name = "mainFormPanel";
+            resources.ApplyResources(this.MainFormPanel, "MainFormPanel");
+            this.MainFormPanel.Controls.Add(this.UserControlHomePage);
+            this.MainFormPanel.Controls.Add(this.UserControlFilePage);
+            this.MainFormPanel.Controls.Add(this.UserControlHelpPage);
+            this.MainFormPanel.Name = "MainFormPanel";
             // 
             // UserControlHomePage
             // 
@@ -198,7 +198,6 @@
             // UserControlFilePage
             // 
             resources.ApplyResources(this.UserControlFilePage, "UserControlFilePage");
-            this.UserControlFilePage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.UserControlFilePage.Name = "UserControlFilePage";
             // 
             // UserControlHelpPage
@@ -209,26 +208,22 @@
             // 
             // MainForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.menuStrip);
-            this.Controls.Add(this.mainFormPanel);
-            this.MainMenuStrip = this.menuStrip;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.Controls.Add(this.MenuStrip);
+            this.Controls.Add(this.MainFormPanel);
+            this.MainMenuStrip = this.MenuStrip;
             this.Name = "MainForm";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.menuStrip.ResumeLayout(false);
-            this.menuStrip.PerformLayout();
-            this.mainFormPanel.ResumeLayout(false);
+            this.MenuStrip.ResumeLayout(false);
+            this.MenuStrip.PerformLayout();
+            this.MainFormPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private UserControlHelp UserControlHelpPage;
-        private UserControlFile UserControlFilePage;
-        private UserControlHome UserControlHomePage;
-        private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.Panel mainFormPanel;
+        private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.ToolStripMenuItem MenuItemFile;
         private System.Windows.Forms.ToolStripMenuItem MenuItemNewFile;
         private System.Windows.Forms.ToolStripMenuItem MenuItemOpenFile;
@@ -244,5 +239,9 @@
         private System.Windows.Forms.ToolStripMenuItem MenuItemCloseFile;
         private System.Windows.Forms.ToolStripMenuItem MenuItemPrint;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.Panel MainFormPanel;
+        private UserControlHome UserControlHomePage;
+        private UserControlFile UserControlFilePage;
+        private UserControlHelp UserControlHelpPage;
     }
 }

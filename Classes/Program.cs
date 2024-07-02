@@ -10,6 +10,10 @@ namespace MasterTrainingRecordsApp
         [STAThread]
         static void Main()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            //Application.SetHighDpiMode(HighDpiMode.DpiUnaware);
+            //Application
             Application.Run(new MainForm());
         }
 
