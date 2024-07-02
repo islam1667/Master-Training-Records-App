@@ -142,19 +142,19 @@
     <Compile Include="Classes\FileHistory.cs" />
     <Compile Include="Classes\TrainingRecord.cs" />
     <Compile Include="Classes\ExcelOperations.cs" />
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserControls\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\UserControlHome.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -173,7 +173,7 @@
     <Compile Include="UserControls\UserControlFile.Designer.cs">
       <DependentUpon>UserControlFile.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="UserControls\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
