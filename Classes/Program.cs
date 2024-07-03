@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace MasterTrainingRecordsApp
@@ -81,6 +83,28 @@ namespace MasterTrainingRecordsApp
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                     return openFileDialog.FileName;
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Prompt to select multiple files
+        /// </summary>
+        /// <returns>List of file paths</returns>
+        public static List<string> PromptOpenMultipleExcelFile()
+        {
+            // Prompt user to choose location and name for Excel file
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx";
+                openFileDialog.DefaultExt = "xlsx";
+                openFileDialog.RestoreDirectory = true;
+                openFileDialog.Title = "Open Excel File";
+                openFileDialog.Multiselect = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    return openFileDialog.FileNames.ToList();
 
                 return null;
             }

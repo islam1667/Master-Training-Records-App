@@ -59,7 +59,6 @@ namespace MasterTrainingRecordsApp
             DataGridViewTrainingRecord.ReadOnly = false;
             DataGridViewTrainingRecord.RowHeadersWidth = 25;
             DataGridViewTrainingRecord.DefaultCellStyle.DataSourceNullValue = string.Empty;
-            
 
             // Bound class to make it show column headers and define columns
             DataGridViewTrainingRecord.DataSource = new BindingList<TrainingRecord>();
@@ -101,87 +100,6 @@ namespace MasterTrainingRecordsApp
             // Subscribe those to validate appropriate columns
             DataGridViewTrainingRecord.CellValidating += DataGridView_DateCellValidate;
             DataGridViewTrainingRecord.CellValidating += DataGridView_NumberCellValidate;
-        }
-
-        /// <summary>
-        /// Tries to parse string to date
-        /// </summary>
-        /// <param name="dateString">Date as string</param>
-        /// <param name="date">Date to be out</param>
-        /// <returns>Success if parsing was successful</returns>
-        private bool TryParseDate(string dateString, out DateTime date)
-        {
-            // Prevent errors occur with null check
-            if (dateString == null)
-            {
-                date = new DateTime();
-                return false;
-            }
-
-            // Preserve only numbers in string, so if user enters 12-12-2012 it will be converted into 12 12 2012 ot make it valid
-            dateString = Regex.Replace(dateString, @"[^0-9]", " ").Trim();
-
-            // List of acceptable date formats
-            string[] formats = { "d M yyyy", "dd MM yyyy", "d MM yyyy", "dd M yyyy", "d M yy", "dd MM yy", "d MM yy", "dd MM yy" };
-
-            return DateTime.TryParseExact(dateString, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
-        }
-
-        /// <summary>
-        /// Validates appropriate columns for valid number characters, blocks user to enter character which can cause error
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataGridView_DateCellValidate(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-            // This validation is only for 4th and 5th columns, date columns
-            if (e.ColumnIndex != 4 && e.ColumnIndex != 5) return;
-
-            // Prevent errors with null check, only validate when edit finished
-            // If cell is not edit mode does not continue because we use EditingControl property to
-            // change text of currently editing cell, and when cell is not edited it will be null and
-            // cause errors
-            if (!DataGridViewTrainingRecord.IsCurrentCellInEditMode) return;
-            if (string.IsNullOrEmpty(e.FormattedValue.ToString().Trim())) return;
-
-            if (TryParseDate(e.FormattedValue.ToString().Trim(), out DateTime tempDate))
-            {
-                DataGridViewTrainingRecord.EditingControl.Text = tempDate.ToString("dd/MM/yyyy");
-            }
-            else
-            {
-                // Cancel validation to keep user in edit mode
-                e.Cancel = true;
-                // Change content of cell to valid data to not cause data error if user closes file
-                DataGridViewTrainingRecord.EditingControl.Text = string.Empty;
-                MessageBox.Show("Please enter the date in dd/MM/yyyy format.", "Invalid Date format", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>
-        /// Validates appropriate columns for valid format of date
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataGridView_NumberCellValidate(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-            // This validation only for 8th and 9th columns, number columns
-            if (e.ColumnIndex != 8 && e.ColumnIndex != 9) return;
-
-            // Prevent errors with null check, only validate when edit finished
-            // If cell is not edit mode does not continue because we use EditingControl property to
-            // change text of currently editing cell, and when cell is not edited it will be null and
-            // cause errors
-            if (!DataGridViewTrainingRecord.IsCurrentCellInEditMode) return;
-
-            if (!int.TryParse(e.FormattedValue?.ToString(), out int _temp))
-            {
-                // Cancel validation to keep user in edit mode
-                e.Cancel = true;
-                // Change content of cell to valid data to not cause data error if user closes file
-                DataGridViewTrainingRecord.EditingControl.Text = "0";
-                MessageBox.Show("Value is not number.", "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
         }
 
         /// <summary>
@@ -319,6 +237,87 @@ namespace MasterTrainingRecordsApp
         }
 
         /// <summary>
+        /// Tries to parse string to date
+        /// </summary>
+        /// <param name="dateString">Date as string</param>
+        /// <param name="date">Date to be out</param>
+        /// <returns>Success if parsing was successful</returns>
+        private bool TryParseDate(string dateString, out DateTime date)
+        {
+            // Prevent errors occur with null check
+            if (dateString == null)
+            {
+                date = new DateTime();
+                return false;
+            }
+
+            // Preserve only numbers in string, so if user enters 12-12-2012 it will be converted into 12 12 2012 ot make it valid
+            dateString = Regex.Replace(dateString, @"[^0-9]", " ").Trim();
+
+            // List of acceptable date formats
+            string[] formats = { "d M yyyy", "dd MM yyyy", "d MM yyyy", "dd M yyyy", "d M yy", "dd MM yy", "d MM yy", "dd MM yy" };
+
+            return DateTime.TryParseExact(dateString, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
+        }
+
+        /// <summary>
+        /// Validates appropriate columns for valid number characters, blocks user to enter character which can cause error
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataGridView_DateCellValidate(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            // This validation is only for 4th and 5th columns, date columns
+            if (e.ColumnIndex != 4 && e.ColumnIndex != 5) return;
+
+            // Prevent errors with null check, only validate when edit finished
+            // If cell is not edit mode does not continue because we use EditingControl property to
+            // change text of currently editing cell, and when cell is not edited it will be null and
+            // cause errors
+            if (!DataGridViewTrainingRecord.IsCurrentCellInEditMode) return;
+            if (string.IsNullOrEmpty(e.FormattedValue.ToString().Trim())) return;
+
+            if (TryParseDate(e.FormattedValue.ToString().Trim(), out DateTime tempDate))
+            {
+                DataGridViewTrainingRecord.EditingControl.Text = tempDate.ToString("dd.MM.yyyy");
+            }
+            else
+            {
+                // Cancel validation to keep user in edit mode
+                e.Cancel = true;
+                // Change content of cell to valid data to not cause data error if user closes file
+                DataGridViewTrainingRecord.EditingControl.Text = string.Empty;
+                MessageBox.Show("Please enter the date in dd.MM.yyyy format.", "Invalid Date format", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Validates appropriate columns for valid format of date
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataGridView_NumberCellValidate(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            // This validation only for 8th and 9th columns, number columns
+            if (e.ColumnIndex != 8 && e.ColumnIndex != 9) return;
+
+            // Prevent errors with null check, only validate when edit finished
+            // If cell is not edit mode does not continue because we use EditingControl property to
+            // change text of currently editing cell, and when cell is not edited it will be null and
+            // cause errors
+            if (!DataGridViewTrainingRecord.IsCurrentCellInEditMode) return;
+
+            if (!int.TryParse(e.FormattedValue?.ToString(), out int _temp))
+            {
+                // Cancel validation to keep user in edit mode
+                e.Cancel = true;
+                // Change content of cell to valid data to not cause data error if user closes file
+                DataGridViewTrainingRecord.EditingControl.Text = "0";
+                MessageBox.Show("Value is not number.", "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        /// <summary>
         /// This Method allows for bulk edit, when user edits and commit, this method will change 
         /// content of all selected cells if suitable
         /// </summary>
@@ -342,7 +341,7 @@ namespace MasterTrainingRecordsApp
                 if (cell.ColumnIndex == 4 || cell.ColumnIndex == 5)
                 {
                     if (TryParseDate(value, out DateTime tempDate))
-                        cell.Value = tempDate.ToString("dd/MM/yyyy");
+                        cell.Value = tempDate.ToString("dd.MM.yyyy");
 
                     continue;
                 }
@@ -458,6 +457,7 @@ namespace MasterTrainingRecordsApp
 
         /// <summary>
         /// Syncs List box ui with the DataView stored inside list box, shows filtered elements in list box depending on the search text
+        /// And syncs data grid view with the list box, adds and removes items from data grid view
         /// Syncs DataView["Checked"] with list box's check state
         /// </summary>
         private void UpdateAndSync()
@@ -569,10 +569,10 @@ namespace MasterTrainingRecordsApp
             // Create member info from text box inputs
             return new MemberInfo()
             {
-                Trainee = TextBoxTrainee.Text,
-                Course = TextBoxCourse.Text,
-                Manager = TextBoxManager.Text,
-                Position = TextBoxPosition.Text
+                Trainee = TextBoxTrainee.Text.Trim(),
+                Course = TextBoxCourse.Text.Trim(),
+                Manager = TextBoxManager.Text.Trim(),
+                Position = TextBoxPosition.Text.Trim()
             };
         }
 

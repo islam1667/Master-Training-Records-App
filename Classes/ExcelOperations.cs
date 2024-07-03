@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Office.Interop.Excel;
 using Newtonsoft.Json;
 using OfficeOpenXml;
@@ -32,7 +31,7 @@ namespace MasterTrainingRecordsApp
         /// <summary>
         /// Gets the file path of database from xml
         /// </summary>
-        public static string DataBaseExcelFilePath
+        public static List<string> DataBaseExcelFilePath
         {
             get
             {
@@ -41,14 +40,22 @@ namespace MasterTrainingRecordsApp
                 XDocument xmlDoc = XDocument.Load(_dataBaseExcelFilePathXml);
                 if (xmlDoc.Root.Element("file") == null || xmlDoc.Root.Element("file").Attribute("path").Value == string.Empty) return null;
 
-                // If file which have path in 'file' element does not exist, remove it from xml
-                if (!File.Exists(xmlDoc.Root.Element("file").Attribute("path").Value))
-                {
-                    xmlDoc.Root.Element("file").Remove();
-                    xmlDoc.Save(_dataBaseExcelFilePathXml);
-                    return null;
-                }
-                return xmlDoc.Root.Element("file").Attribute("path").Value;
+                List<string> paths = new List<string>();
+
+                foreach (XElement fileEl in xmlDoc.Root.Elements("file"))
+                    // If file which have path in 'file' element does not exist, remove it from xml
+                    if (!File.Exists(xmlDoc.Root.Element("file").Attribute("path").Value))
+                    {
+                        xmlDoc.Root.Element("file").Remove();
+                        xmlDoc.Save(_dataBaseExcelFilePathXml);
+                        MessageBox.Show(fileEl.Attribute("path").Value + " - DB File does not exist");
+                    }
+                    else
+                    {
+                        paths.Add(fileEl.Attribute("path").Value);
+                    }
+                if (paths.Count == 0) return null;
+                return paths;
             }
             set
             {
@@ -69,7 +76,12 @@ namespace MasterTrainingRecordsApp
                 // Remove previously added database and add new one
                 XDocument xmlDoc = XDocument.Load(_dataBaseExcelFilePathXml);
                 xmlDoc.Root.RemoveAll();
-                xmlDoc.Root.Add(new XElement("file", new XAttribute("path", value ?? "")));
+                if (value != null)
+                    foreach (string path in value)
+                    {
+                        xmlDoc.Root.Add(new XElement("file", new XAttribute("path", path ?? "")));
+                    }
+
                 xmlDoc.Save(_dataBaseExcelFilePathXml);
             }
         }
@@ -254,45 +266,46 @@ namespace MasterTrainingRecordsApp
         /// </summary>
         /// <param name="filePath">File path of source file</param>
         /// <returns>List of records that read</returns>
-        public static List<TrainingRecord> ReadDBExcelFile(string filePath)
+        public static List<TrainingRecord> ReadDBExcelFile(List<string> filePaths)
         {
-            // Open the Excel file using ExcelPackage
-            using (ExcelPackage package = new ExcelPackage(filePath))
-            {
-                // Get the first page of excel file
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
+            // Clear previously added records, because new db is read and records from this db will be added
+            RecordsDatabase.Clear();
 
-                // Prevent errors occur with null check
-                if (worksheet == null)
+            foreach (string filePath in filePaths)
+                // Open the Excel file using ExcelPackage
+                using (ExcelPackage package = new ExcelPackage(filePath))
                 {
-                    MessageBox.Show("Error reading Excel file, worksheet null or file not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return null;
-                }
+                    // Get the first page of excel file
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
 
-                // Clear previously added records, because new db is read and records from this db will be added
-                RecordsDatabase.Clear();
-
-                // Iterate through rows in the Excel file and create TrainingRecord objects
-                int totalRows = worksheet.Dimension.Rows;
-                // Start from row 2
-                for (int rowIndex = 2; rowIndex <= totalRows; rowIndex++)
-                {
-                    // Read record from file
-                    RecordsDatabase.Add(new TrainingRecord
+                    // Prevent errors occur with null check
+                    if (worksheet == null)
                     {
-                        Reference = worksheet.Cells[rowIndex, 1].Text,
-                        Task = worksheet.Cells[rowIndex, 2].Text,
-                        Category = worksheet.Cells[rowIndex, 3].Text,
-                        Type = worksheet.Cells[rowIndex, 4].Text,
-                        StartTime = worksheet.Cells[rowIndex, 5].Text,
-                        EndTime = worksheet.Cells[rowIndex, 6].Text,
-                        TrainerInitials = worksheet.Cells[rowIndex, 7].Text,
-                        CertifierInitials = worksheet.Cells[rowIndex, 8].Text,
-                        CertifierScore = int.TryParse(worksheet.Cells[rowIndex, 9].Value?.ToString(), out int res) ? res : default,
-                        RequiredScore = int.TryParse(worksheet.Cells[rowIndex, 10].Value?.ToString(), out res) ? res : default,
-                    });
+                        MessageBox.Show("Error reading Excel file, worksheet null or file not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return null;
+                    }
+
+                    // Iterate through rows in the Excel file and create TrainingRecord objects
+                    int totalRows = worksheet.Dimension.Rows;
+                    // Start from row 2
+                    for (int rowIndex = 2; rowIndex <= totalRows; rowIndex++)
+                    {
+                        // Read record from file
+                        RecordsDatabase.Add(new TrainingRecord
+                        {
+                            Reference = worksheet.Cells[rowIndex, 1].Text,
+                            Task = worksheet.Cells[rowIndex, 2].Text,
+                            Category = worksheet.Cells[rowIndex, 3].Text,
+                            Type = worksheet.Cells[rowIndex, 4].Text,
+                            StartTime = worksheet.Cells[rowIndex, 5].Text,
+                            EndTime = worksheet.Cells[rowIndex, 6].Text,
+                            TrainerInitials = worksheet.Cells[rowIndex, 7].Text,
+                            CertifierInitials = worksheet.Cells[rowIndex, 8].Text,
+                            CertifierScore = int.TryParse(worksheet.Cells[rowIndex, 9].Value?.ToString(), out int res) ? res : default,
+                            RequiredScore = int.TryParse(worksheet.Cells[rowIndex, 10].Value?.ToString(), out res) ? res : default,
+                        });
+                    }
                 }
-            }
             return RecordsDatabase;
         }
 

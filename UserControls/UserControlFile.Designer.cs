@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlFile));
             this.TextBoxTrainee = new System.Windows.Forms.TextBox();
             this.TextBoxCourse = new System.Windows.Forms.TextBox();
@@ -59,43 +59,47 @@
             // TextBoxTrainee
             // 
             this.TextBoxTrainee.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBoxTrainee.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TextBoxTrainee.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.TextBoxTrainee.Location = new System.Drawing.Point(12, 54);
             this.TextBoxTrainee.MaxLength = 200;
             this.TextBoxTrainee.Name = "TextBoxTrainee";
-            this.TextBoxTrainee.Size = new System.Drawing.Size(169, 20);
+            this.TextBoxTrainee.Size = new System.Drawing.Size(169, 22);
             this.TextBoxTrainee.TabIndex = 0;
             this.TextBoxTrainee.WordWrap = false;
             // 
             // TextBoxCourse
             // 
             this.TextBoxCourse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBoxCourse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TextBoxCourse.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.TextBoxCourse.Location = new System.Drawing.Point(12, 106);
             this.TextBoxCourse.MaxLength = 200;
             this.TextBoxCourse.Name = "TextBoxCourse";
-            this.TextBoxCourse.Size = new System.Drawing.Size(169, 20);
+            this.TextBoxCourse.Size = new System.Drawing.Size(169, 22);
             this.TextBoxCourse.TabIndex = 1;
             // 
             // TextBoxManager
             // 
             this.TextBoxManager.BackColor = System.Drawing.Color.White;
             this.TextBoxManager.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBoxManager.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TextBoxManager.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.TextBoxManager.Location = new System.Drawing.Point(207, 106);
             this.TextBoxManager.MaxLength = 200;
             this.TextBoxManager.Name = "TextBoxManager";
-            this.TextBoxManager.Size = new System.Drawing.Size(169, 20);
+            this.TextBoxManager.Size = new System.Drawing.Size(169, 22);
             this.TextBoxManager.TabIndex = 3;
             // 
             // TextBoxPosition
             // 
             this.TextBoxPosition.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBoxPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TextBoxPosition.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.TextBoxPosition.Location = new System.Drawing.Point(207, 52);
+            this.TextBoxPosition.Location = new System.Drawing.Point(207, 54);
             this.TextBoxPosition.MaxLength = 200;
             this.TextBoxPosition.Name = "TextBoxPosition";
-            this.TextBoxPosition.Size = new System.Drawing.Size(169, 20);
+            this.TextBoxPosition.Size = new System.Drawing.Size(169, 22);
             this.TextBoxPosition.TabIndex = 2;
             // 
             // DataGridViewTrainingRecord
@@ -108,38 +112,39 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DataGridViewTrainingRecord.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DataGridViewTrainingRecord.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.DataGridViewTrainingRecord.BackgroundColor = System.Drawing.SystemColors.Control;
             this.DataGridViewTrainingRecord.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridViewTrainingRecord.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Tai Le", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridViewTrainingRecord.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.DataGridViewTrainingRecord.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridViewTrainingRecord.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridViewTrainingRecord.DefaultCellStyle = dataGridViewCellStyle2;
             this.DataGridViewTrainingRecord.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.DataGridViewTrainingRecord.Location = new System.Drawing.Point(12, 247);
             this.DataGridViewTrainingRecord.Margin = new System.Windows.Forms.Padding(0);
             this.DataGridViewTrainingRecord.Name = "DataGridViewTrainingRecord";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.NullValue = "X";
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridViewTrainingRecord.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.NullValue = "X";
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridViewTrainingRecord.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.DataGridViewTrainingRecord.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.DataGridViewTrainingRecord.ShowCellToolTips = false;
             this.DataGridViewTrainingRecord.ShowEditingIcon = false;
@@ -205,20 +210,22 @@
             this.TextBoxAddTask.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextBoxAddTask.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBoxAddTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TextBoxAddTask.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.TextBoxAddTask.Location = new System.Drawing.Point(34, 17);
             this.TextBoxAddTask.Margin = new System.Windows.Forms.Padding(40, 3, 40, 3);
             this.TextBoxAddTask.Name = "TextBoxAddTask";
-            this.TextBoxAddTask.Size = new System.Drawing.Size(421, 20);
+            this.TextBoxAddTask.Size = new System.Drawing.Size(421, 22);
             this.TextBoxAddTask.TabIndex = 5;
             this.TextBoxAddTask.TextChanged += new System.EventHandler(this.TextBoxAddTask_TextChanged);
             // 
             // TextBoxFilePathInfo
             // 
             this.TextBoxFilePathInfo.Enabled = false;
+            this.TextBoxFilePathInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TextBoxFilePathInfo.Location = new System.Drawing.Point(12, 195);
             this.TextBoxFilePathInfo.Name = "TextBoxFilePathInfo";
-            this.TextBoxFilePathInfo.Size = new System.Drawing.Size(403, 20);
+            this.TextBoxFilePathInfo.Size = new System.Drawing.Size(403, 21);
             this.TextBoxFilePathInfo.TabIndex = 15;
             this.TextBoxFilePathInfo.TabStop = false;
             // 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -138,13 +139,13 @@ namespace MasterTrainingRecordsApp
         {
             if (ExcelOperations.DataBaseExcelFilePath != null)
             {
-                MenuItemSource.Text = "DB (Loaded)";
+                MenuItemSource.Text = "DBs (Loaded)";
                 ExcelOperations.ReadDBExcelFile(ExcelOperations.DataBaseExcelFilePath);
                 UserControlFilePage.InitializeListBoxTask();
             }
             else
             {
-                MenuItemSource.Text = "DB (Not Loaded)";
+                MenuItemSource.Text = "DBs (Not Loaded)";
             }
         }
 
@@ -156,12 +157,13 @@ namespace MasterTrainingRecordsApp
         private void MenuItemSource_Click(object sender, EventArgs e)
         {
             // Prompt user to select database file
-            ExcelOperations.DataBaseExcelFilePath = Program.PromptOpenExcelFile();
+            List<string> paths = Program.PromptOpenMultipleExcelFile();
             // if user canceled to select, return
-            if (ExcelOperations.DataBaseExcelFilePath == null) return;
+            if (paths == null) return;
+            ExcelOperations.DataBaseExcelFilePath = paths;
 
-            MessageBox.Show("DB source loaded succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            MenuItemSource.Text = "DB (Loaded)";
+            MessageBox.Show("DBs source loaded succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MenuItemSource.Text = "DBs (Loaded)";
             ExcelOperations.ReadDBExcelFile(ExcelOperations.DataBaseExcelFilePath);
 
             // Initializing list box again to fill it with records previously read database

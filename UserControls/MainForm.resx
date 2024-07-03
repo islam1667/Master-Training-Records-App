@@ -124,68 +124,11 @@
   <data name="MenuStrip.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="MenuItemFile.Text" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
-  <data name="MenuItemSource.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        4wAAAOMBD+bfpwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAE4SURBVFhH7ddB
-        SsNAGMXx0I3dVSxdSEE3bvUGdaE30CroBbyIO+01XAiCR1FQXAtuxUI3LhT9P+0HYTKmJn7tqPTBD0Jm
-        pnnQZEiy/5AGVrGNIxxjGa4JL3KKS9ziGW+BPmqlje9epMweKmcNI8R+sCoVkNjYHToo5KsFdZQVkB0U
-        so/Y5DomFdBYIfMCv67AI87HLvAKG9Oxztm45ubXuhTQRbZg0b5gYyc6Mc4m8uXEpYA8YAnKAq5wg6ZO
-        kEXcI1znVkDOYFnHxufhRzQWW+NaQA4Q5hCxueJeYIgVWLoIb7w89wJPSFog9hfsIjZXXAskvQnDx/Aa
-        ej+wx7CFqT2G4UY0gI1pU7L08IL8WpcCybfin5gX+JsFyhZUNalA9KU0+Wu5kvTDpCwz+zSrk5l8nE4p
-        WfYOkwxQ+hy3f5QAAAAASUVORK5CYII=
-</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="MenuItemSource.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
-    <value>No</value>
-  </data>
-  <data name="MenuItemSource.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 20</value>
-  </data>
-  <data name="MenuItemSource.Text" xml:space="preserve">
-    <value>&amp;Edit - Source</value>
-  </data>
-  <data name="MenuItemHelp.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="MenuItemHelp.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
-  <data name="MenuStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="MenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>936, 24</value>
-  </data>
-  <data name="MenuStrip.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip.Name" xml:space="preserve">
-    <value>MenuStrip</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="MenuItemNewFile.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="MenuItemNewFile.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Transparent</value>
   </data>
@@ -225,12 +168,6 @@
   <data name="MenuItemSave.Text" xml:space="preserve">
     <value>&amp;Save</value>
   </data>
-  <data name="MenuItemSaveAs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
-  </data>
-  <data name="MenuItemSaveAs.Text" xml:space="preserve">
-    <value>Save As</value>
-  </data>
   <data name="MenuItemSaveAsXLSX.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 22</value>
   </data>
@@ -242,6 +179,12 @@
   </data>
   <data name="MenuItemSaveAsJSON.Text" xml:space="preserve">
     <value>JSON (.json)</value>
+  </data>
+  <data name="MenuItemSaveAs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 22</value>
+  </data>
+  <data name="MenuItemSaveAs.Text" xml:space="preserve">
+    <value>Save As</value>
   </data>
   <data name="MenuItemCloseFile.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+L</value>
@@ -279,6 +222,63 @@
   <data name="MenuItemExit.Text" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
+  <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="MenuItemFile.Text" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="MenuItemSource.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        4wAAAOMBD+bfpwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAE4SURBVFhH7ddB
+        SsNAGMXx0I3dVSxdSEE3bvUGdaE30CroBbyIO+01XAiCR1FQXAtuxUI3LhT9P+0HYTKmJn7tqPTBD0Jm
+        pnnQZEiy/5AGVrGNIxxjGa4JL3KKS9ziGW+BPmqlje9epMweKmcNI8R+sCoVkNjYHToo5KsFdZQVkB0U
+        so/Y5DomFdBYIfMCv67AI87HLvAKG9Oxztm45ubXuhTQRbZg0b5gYyc6Mc4m8uXEpYA8YAnKAq5wg6ZO
+        kEXcI1znVkDOYFnHxufhRzQWW+NaQA4Q5hCxueJeYIgVWLoIb7w89wJPSFog9hfsIjZXXAskvQnDx/Aa
+        ej+wx7CFqT2G4UY0gI1pU7L08IL8WpcCybfin5gX+JsFyhZUNalA9KU0+Wu5kvTDpCwz+zSrk5l8nE4p
+        WfYOkwxQ+hy3f5QAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="MenuItemSource.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>No</value>
+  </data>
+  <data name="MenuItemSource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 20</value>
+  </data>
+  <data name="MenuItemSource.Text" xml:space="preserve">
+    <value>&amp;Edit - Source</value>
+  </data>
+  <data name="MenuItemHelp.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="MenuItemHelp.Text" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="MenuStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="MenuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>936, 24</value>
+  </data>
+  <data name="MenuStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip.Name" xml:space="preserve">
+    <value>MenuStrip</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="MainFormPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
@@ -289,7 +289,7 @@
     <value>0, 0</value>
   </data>
   <data name="UserControlHomePage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>933, 494</value>
+    <value>936, 505</value>
   </data>
   <data name="UserControlHomePage.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -315,8 +315,11 @@
   <data name="UserControlFilePage.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="UserControlFilePage.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>890, 340</value>
+  </data>
   <data name="UserControlFilePage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>936, 497</value>
+    <value>936, 505</value>
   </data>
   <data name="UserControlFilePage.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -343,7 +346,7 @@
     <value>0, 0</value>
   </data>
   <data name="UserControlHelpPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>936, 504</value>
+    <value>936, 505</value>
   </data>
   <data name="UserControlHelpPage.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -361,10 +364,10 @@
     <value>2</value>
   </data>
   <data name="MainFormPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 22</value>
+    <value>0, 27</value>
   </data>
   <data name="MainFormPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>936, 497</value>
+    <value>936, 505</value>
   </data>
   <data name="MainFormPanel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -394,7 +397,7 @@
     <value>GrowAndShrink</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>936, 522</value>
+    <value>936, 533</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -939,7 +942,7 @@
     <value>NoControl</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>890, 340</value>
+    <value>952, 572</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
