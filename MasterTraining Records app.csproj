@@ -26,10 +26,10 @@
     <MapFileExtensions>false</MapFileExtensions>
     <TargetCulture>en</TargetCulture>
     <ProductName>Master Training Records App</ProductName>
-    <PublisherName>ISLAM1667</PublisherName>
+    <PublisherName>1667</PublisherName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
+    <ApplicationVersion>1.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -147,6 +147,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\DatabaseEditDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserControls\DatabaseEditDialog.Designer.cs">
+      <DependentUpon>DatabaseEditDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +179,9 @@
     <Compile Include="UserControls\UserControlFile.Designer.cs">
       <DependentUpon>UserControlFile.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\DatabaseEditDialog.resx">
+      <DependentUpon>DatabaseEditDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>

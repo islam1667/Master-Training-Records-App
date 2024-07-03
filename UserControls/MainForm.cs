@@ -1,7 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using MasterTrainingRecordsApp.UserControls;
+
+/*
+ * If you cannot understand the code, mail me islam.ibrahimov.2000 at gmail.com
+ */
 
 namespace MasterTrainingRecordsApp
 {
@@ -157,10 +161,14 @@ namespace MasterTrainingRecordsApp
         private void MenuItemSource_Click(object sender, EventArgs e)
         {
             // Prompt user to select database file
-            List<string> paths = Program.PromptOpenMultipleExcelFile();
+            //List<string> paths = Program.PromptOpenMultipleExcelFile();
             // if user canceled to select, return
-            if (paths == null) return;
-            ExcelOperations.DataBaseExcelFilePath = paths;
+            //if (paths == null) return;
+            //ExcelOperations.DataBaseExcelFilePath = paths;
+
+            using (DatabaseEditDialog dialog = new DatabaseEditDialog()) {
+                DialogResult result = dialog.ShowDialog();
+            }
 
             MessageBox.Show("DBs source loaded succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             MenuItemSource.Text = "DBs (Loaded)";
