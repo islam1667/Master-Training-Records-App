@@ -49,6 +49,7 @@
             this.PictureBoxResetAddTaskTextBox = new System.Windows.Forms.PictureBox();
             this.GroupBoxMemberInfo = new System.Windows.Forms.GroupBox();
             this.PictureBoxResetMemberInfo = new System.Windows.Forms.PictureBox();
+            this.ComboBoxScoreCategory = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridViewTrainingRecord)).BeginInit();
             this.GroupBoxSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxResetAddTaskTextBox)).BeginInit();
@@ -112,7 +113,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DataGridViewTrainingRecord.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.DataGridViewTrainingRecord.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.DataGridViewTrainingRecord.BackgroundColor = System.Drawing.SystemColors.Control;
             this.DataGridViewTrainingRecord.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
@@ -300,10 +300,26 @@
             this.PictureBoxResetMemberInfo.TabStop = false;
             this.PictureBoxResetMemberInfo.Click += new System.EventHandler(this.PictureBoxResetMemberInfo_Click);
             // 
+            // ComboBoxScoreCategory
+            // 
+            this.ComboBoxScoreCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ComboBoxScoreCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxScoreCategory.FormattingEnabled = true;
+            this.ComboBoxScoreCategory.Items.AddRange(new object[] {
+            "Category 1",
+            "Category 2",
+            "Category 3",
+            "Category 4"});
+            this.ComboBoxScoreCategory.Location = new System.Drawing.Point(788, 223);
+            this.ComboBoxScoreCategory.Name = "ComboBoxScoreCategory";
+            this.ComboBoxScoreCategory.Size = new System.Drawing.Size(105, 21);
+            this.ComboBoxScoreCategory.TabIndex = 11;
+            // 
             // UserControlFile
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Controls.Add(this.ComboBoxScoreCategory);
             this.Controls.Add(this.GroupBoxMemberInfo);
             this.Controls.Add(this.GroupBoxSearch);
             this.Controls.Add(this.DataGridViewTrainingRecord);
@@ -343,5 +359,6 @@
         private System.Windows.Forms.GroupBox GroupBoxSearch;
         private System.Windows.Forms.GroupBox GroupBoxMemberInfo;
         private System.Windows.Forms.ComboBox ComboBoxFilter;
+        private System.Windows.Forms.ComboBox ComboBoxScoreCategory;
     }
 }

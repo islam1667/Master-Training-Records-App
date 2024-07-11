@@ -1,9 +1,28 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace MasterTrainingRecordsApp
 {
     public class TrainingRecord
     {
+        public TrainingRecord(string reference, string task, string category, string type, string startTime, string endTime, string trainerInitials, string certifierInitials, int? certifierScore, int? requiredScore, int? scoreCategory1, int? scoreCategory2, int? scoreCategory3, int? scoreCategory4)
+        {
+            Reference = reference ?? default;
+            Task = task ?? default;
+            Category = category ?? default;
+            Type = type ?? default;
+            StartTime = startTime ?? default;
+            EndTime = endTime ?? default;
+            TrainerInitials = trainerInitials ?? default;
+            CertifierInitials = certifierInitials ?? default;
+            CertifierScore = certifierScore;
+            RequiredScore = requiredScore;
+            ScoreCategory1 = scoreCategory1;
+            ScoreCategory2 = scoreCategory2;
+            ScoreCategory3 = scoreCategory3;
+            ScoreCategory4 = scoreCategory4;
+        }
+
         // Properties for training record information
         public string Reference { get; set; }
         public string Task { get; set; }
@@ -25,43 +44,77 @@ namespace MasterTrainingRecordsApp
         [DisplayName("Certifier Score")]
         public int? CertifierScore { get; set; }
 
+        // This will be set to ScoreCategory1 by default
         [DisplayName("Required Score")]
         public int? RequiredScore { get; set; }
 
-        // Default constructor initializes properties with default values
-        public TrainingRecord()
-        {
-            this.Reference = default;
-            this.Task = default;
-            this.Category = default;
-            this.Type = default;
-            this.StartTime = default;
-            this.EndTime = default;
-            this.TrainerInitials = default;
-            this.CertifierInitials = default;
-            this.CertifierScore = default;
-            this.RequiredScore = default;
-        }
+        [Browsable(false)]
+        public int? ScoreCategory1 { get; set; }
 
-        // Parameterized constructor to initialize properties with provided values
-        public TrainingRecord(string Reference, string TaskInfo, string CatagoryInfo, string TypeInfo, string StartTimeInfo, string EndTimeInfo, string TrainerInitialsInfo, string CertifierInitialsInfo, int? CertifierScoreInfo, int? RequiredScoreInfo)
-        {
-            this.Reference = Reference ?? default;
-            this.Task = TaskInfo ?? default;
-            this.Category = CatagoryInfo ?? default;
-            this.Type = TypeInfo ?? default;
-            this.StartTime = StartTimeInfo ?? default;
-            this.EndTime = EndTimeInfo ?? default;
-            this.TrainerInitials = TrainerInitialsInfo ?? default;
-            this.CertifierInitials = CertifierInitialsInfo ?? default;
-            this.CertifierScore = CertifierScoreInfo ?? default;
-            this.RequiredScore = RequiredScoreInfo ?? default;
-        }
+        [Browsable(false)]
+        public int? ScoreCategory2 { get; set; }
+
+        [Browsable(false)]
+        public int? ScoreCategory3 { get; set; }
+
+        [Browsable(false)]
+        public int? ScoreCategory4 { get; set; }
+
+        
+        // Default constructor initializes properties with default values
+        //public TrainingRecord()
+        //{
+        //    this.Reference = default;
+        //    this.Task = default;
+        //    this.Category = default;
+        //    this.Type = default;
+        //    this.StartTime = default;
+        //    this.EndTime = default;
+        //    this.TrainerInitials = default;
+        //    this.CertifierInitials = default;
+        //    this.CertifierScore = default;
+        //    this.RequiredScore = default;
+        //}
+
+        //public TrainingRecord()
+        //{
+        //    this.Reference = default;
+        //    this.Task = default;
+        //    this.Category = default;
+        //    this.Type = default;
+        //    this.StartTime = default;
+        //    this.EndTime = default;
+        //    this.TrainerInitials = default;
+        //    this.CertifierInitials = default;
+        //    this.CertifierScore = default;
+        //    this.RequiredScore = default;
+        //    this.ScoreCategory1 = default;
+        //    this.ScoreCategory2 = default;
+        //    this.ScoreCategory3 = default;
+        //    this.ScoreCategory4 = default;
+        //}
+
+
 
         // Method to create a copy of the TrainingRecord object
         public TrainingRecord Clone()
         {
-            return new TrainingRecord(Reference, Task, Category, Type, StartTime, EndTime, TrainerInitials, CertifierInitials, CertifierScore, RequiredScore);
+            return new TrainingRecord(
+                reference: this.Reference,
+                task: this.Task,
+                category: this.Category,
+                type: this.Type,
+                startTime: this.StartTime,
+                endTime: this.EndTime,
+                trainerInitials: this.TrainerInitials,
+                certifierInitials: this.CertifierInitials,
+                certifierScore: CertifierScore,
+                requiredScore: RequiredScore,
+                scoreCategory1: this.ScoreCategory1,
+                scoreCategory2: this.ScoreCategory2,
+                scoreCategory3: this.ScoreCategory3,
+                scoreCategory4: this.ScoreCategory4
+            );
         }
 
         public bool IsEmpty()

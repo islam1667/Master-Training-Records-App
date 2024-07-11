@@ -195,9 +195,12 @@ namespace MasterTrainingRecordsApp
         private static ExcelPackage InitializeExcelTemplate()
         {
             ExcelPackage package = new ExcelPackage();
+            package.Compatibility.IsWorksheets1Based = true;
 
-            // Add a worksheet to the Excel package
+            // Add a worksheet to the Excel package and worksheet for category
             ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Records of Training");
+            ExcelWorksheet catWorksheet = package.Workbook.Worksheets.Add("Score Category");
+
 
             // Write headers for Trainee, Course, Position, and Manager
             worksheet.Cells["A1"].Value = "Trainee:";
@@ -215,6 +218,18 @@ namespace MasterTrainingRecordsApp
             string[] defaultHeaders = { "\tReference\t", "Tasks, Knowledge and Technical References", "Training Category", "Type", "A\nTraining Started", "B\nTraining Completed", "C\nTrainer Initials", "D\nCertifier Initials", "E\nCertifying Score", "F\nRequired Score" };
             for (int i = 0; i < defaultHeaders.Length; i++)
                 worksheet.Cells[3, i + 1].Value = defaultHeaders[i];
+
+            // Write default headers starting from row 3 for catWorksheet
+            string[] defaultHeaders2 = { "Score Category 1", "Score Category 2", "Score Category 3", "Score Category 4"};
+            for (int i = 0; i < defaultHeaders2.Length; i++)
+                catWorksheet.Cells[1, i + 1].Value = defaultHeaders2[i];
+
+            // Style for second sheet, category workheet
+            catWorksheet.Columns.BestFit = true;
+            catWorksheet.Cells["A1:D1"].Style.Fill.SetBackground(System.Drawing.ColorTranslator.FromHtml("#538dd5"));
+            catWorksheet.DefaultColWidth = 30;
+            catWorksheet.Columns.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            catWorksheet.Columns.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
             // Some Style
             worksheet.DefaultColWidth = 9;
@@ -292,18 +307,22 @@ namespace MasterTrainingRecordsApp
                     {
                         // Read record from file
                         RecordsDatabase.Add(new TrainingRecord
-                        {
-                            Reference = worksheet.Cells[rowIndex, 1].Text,
-                            Task = worksheet.Cells[rowIndex, 2].Text,
-                            Category = worksheet.Cells[rowIndex, 3].Text,
-                            Type = worksheet.Cells[rowIndex, 4].Text,
-                            StartTime = worksheet.Cells[rowIndex, 5].Text,
-                            EndTime = worksheet.Cells[rowIndex, 6].Text,
-                            TrainerInitials = worksheet.Cells[rowIndex, 7].Text,
-                            CertifierInitials = worksheet.Cells[rowIndex, 8].Text,
-                            CertifierScore = int.TryParse(worksheet.Cells[rowIndex, 9].Value?.ToString(), out int res) ? res : default,
-                            RequiredScore = int.TryParse(worksheet.Cells[rowIndex, 10].Value?.ToString(), out res) ? res : default,
-                        });
+                    (
+                        reference: worksheet.Cells[rowIndex, 1].Text,
+                        task: worksheet.Cells[rowIndex, 2].Text,
+                        category: worksheet.Cells[rowIndex, 3].Text,
+                        type: worksheet.Cells[rowIndex, 4].Text,
+                        startTime: worksheet.Cells[rowIndex, 5].Text,
+                        endTime: worksheet.Cells[rowIndex, 6].Text,
+                        trainerInitials: worksheet.Cells[rowIndex, 7].Text,
+                        certifierInitials: worksheet.Cells[rowIndex, 8].Text,
+                        certifierScore: int.TryParse(worksheet.Cells[rowIndex, 9].Value?.ToString(), out int res) ? res : default,
+                        requiredScore: int.TryParse(worksheet.Cells[rowIndex, 10].Value?.ToString(), out res) ? res : default,
+                        scoreCategory1: int.TryParse(worksheet.Cells[rowIndex, 11].Value?.ToString(), out res) ? res : default,
+                        scoreCategory2: int.TryParse(worksheet.Cells[rowIndex, 12].Value?.ToString(), out res) ? res : default,
+                        scoreCategory3: int.TryParse(worksheet.Cells[rowIndex, 13].Value?.ToString(), out res) ? res : default,
+                        scoreCategory4: int.TryParse(worksheet.Cells[rowIndex, 14].Value?.ToString(), out res) ? res : default
+                    ));
                     }
                 }
             return RecordsDatabase;
@@ -349,8 +368,9 @@ namespace MasterTrainingRecordsApp
         {
             using (ExcelPackage package = new ExcelPackage(filePath))
             {
-                // Get the first worksheet in the workbook
+                // Get the first worksheet in the workbook and category worksheet
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
+                ExcelWorksheet catWorksheet = package.Workbook.Worksheets[1];
 
                 // Prevent errors occur with null check
                 if (worksheet == null)
@@ -367,18 +387,22 @@ namespace MasterTrainingRecordsApp
                 {
                     // Populate properties of TrainingRecord from Excel cells
                     TrainingRecord record = new TrainingRecord
-                    {
-                        Reference = worksheet.Cells[rowIndex, 1].Text,
-                        Task = worksheet.Cells[rowIndex, 2].Text,
-                        Category = worksheet.Cells[rowIndex, 3].Text,
-                        Type = worksheet.Cells[rowIndex, 4].Text,
-                        StartTime = worksheet.Cells[rowIndex, 5].Text,
-                        EndTime = worksheet.Cells[rowIndex, 6].Text,
-                        TrainerInitials = worksheet.Cells[rowIndex, 7].Text,
-                        CertifierInitials = worksheet.Cells[rowIndex, 8].Text,
-                        CertifierScore = int.TryParse(worksheet.Cells[rowIndex, 9].Value?.ToString(), out int res) ? res : default,
-                        RequiredScore = int.TryParse(worksheet.Cells[rowIndex, 10].Value?.ToString(), out res) ? res : default,
-                    };
+                    (
+                        reference: worksheet.Cells[rowIndex, 1].Text,
+                        task: worksheet.Cells[rowIndex, 2].Text,
+                        category: worksheet.Cells[rowIndex, 3].Text,
+                        type: worksheet.Cells[rowIndex, 4].Text,
+                        startTime: worksheet.Cells[rowIndex, 5].Text,
+                        endTime: worksheet.Cells[rowIndex, 6].Text,
+                        trainerInitials: worksheet.Cells[rowIndex, 7].Text,
+                        certifierInitials: worksheet.Cells[rowIndex, 8].Text,
+                        certifierScore: int.TryParse(worksheet.Cells[rowIndex, 9].Value?.ToString(), out int res) ? res : default,
+                        requiredScore: int.TryParse(worksheet.Cells[rowIndex, 10].Value?.ToString(), out res) ? res : default,
+                        scoreCategory1: int.TryParse(catWorksheet.Cells[rowIndex-2, 1].Value?.ToString(), out res) ? res : default,
+                        scoreCategory2: int.TryParse(catWorksheet.Cells[rowIndex-2, 2].Value?.ToString(), out res) ? res : default,
+                        scoreCategory3: int.TryParse(catWorksheet.Cells[rowIndex-2, 3].Value?.ToString(), out res) ? res : default,
+                        scoreCategory4: int.TryParse(catWorksheet.Cells[rowIndex-2, 4].Value?.ToString(), out res) ? res : default
+                    );
 
                     // Add record to the list only if any data is present
                     if (!record.IsEmpty())
@@ -400,7 +424,7 @@ namespace MasterTrainingRecordsApp
         /// <returns>Success, if was successful</returns>
         public static bool WriteAllToExcel(string filePath, MemberInfo memberInfo, List<TrainingRecord> records, bool temp = false)
         {
-            // Prevent errors occur with null checkiiiii
+            // Prevent errors occur with null check
             if (filePath == null)
             {
                 MessageBox.Show("File not saved.", "FilePath null", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -409,8 +433,13 @@ namespace MasterTrainingRecordsApp
 
             using (ExcelPackage package = InitializeExcelTemplate())
             {
+                // First worksheet will not contain score category
+                // Second worksheet will contain score category
+                // Second worksheet will contain reference, cat1, cat2, cat3, cat4
+
                 // Add a worksheet to the Excel package
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
+                ExcelWorksheet catWorksheet = package.Workbook.Worksheets[2];
 
                 // Write member(trainee) info to file
                 worksheet.Cells["B1"].Value = memberInfo.Trainee;
@@ -425,9 +454,22 @@ namespace MasterTrainingRecordsApp
                     int column = 1;
                     foreach (var property in typeof(TrainingRecord).GetProperties())
                     {
+                        if (column == 11) break; // To make it not write additional 4 columns
                         worksheet.Cells[row, column].Value = property.GetValue(records[row - 4]);
                         worksheet.Cells[row, column++].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     }
+                }
+
+                // Write score categories to categryWorksheet
+                for (int row = 2; row < records.LongCount(); row++) {
+                    catWorksheet.Cells[row, 1].Value = records[row - 2].ScoreCategory1;
+                    catWorksheet.Cells[row, 2].Value = records[row - 2].ScoreCategory2;
+                    catWorksheet.Cells[row, 3].Value = records[row - 2].ScoreCategory3;
+                    catWorksheet.Cells[row, 4].Value = records[row - 2].ScoreCategory4;
+                    catWorksheet.Cells[row, 1].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    catWorksheet.Cells[row, 2].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    catWorksheet.Cells[row, 3].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    catWorksheet.Cells[row, 4].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                 }
 
                 package.SaveAs(filePath);

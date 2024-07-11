@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -17,7 +18,10 @@ using System.Windows.Forms;
  *   then call UpdateAndSync() it will sync it with the data grid view, removing directly from data grid 
  *   view will cause errors.
  *   
+ *   A lot of optimizations can be done to this code. Event architecture can be implemented to make
+ *   more readable and clean code.
  *   
+ *   if something is not understood mail me islam.ibrahimov.2000 at gmail.com.
 */
 
 
@@ -25,6 +29,8 @@ namespace MasterTrainingRecordsApp
 {
     public partial class UserControlFile : UserControl
     {
+        private readonly int _rowDefaultHeight = 30;
+
         public UserControlFile()
         {
             InitializeComponent();
@@ -37,18 +43,191 @@ namespace MasterTrainingRecordsApp
             InitializeDataGridView();
 
             // Subscribe events to track unsaved changes
-            DataGridViewTrainingRecord.CellValueChanged += (sender2, e2) => (ParentForm as MainForm).IsSaved = false;
-            DataGridViewTrainingRecord.RowsAdded += (sender2, e2) => (ParentForm as MainForm).IsSaved = false;
-            DataGridViewTrainingRecord.RowsRemoved += (sender2, e2) => (ParentForm as MainForm).IsSaved = false;
+            DataGridViewTrainingRecord.CellValueChanged += (sender2, e2) => { ResizeRows(); (ParentForm as MainForm).IsSaved = false; };
+            (DataGridViewTrainingRecord.DataSource as BindingList<TrainingRecord>).ListChanged += (sender2, e2) =>
+            {
+                (ParentForm as MainForm).IsSaved = false;
+                ComboBoxScoreCategory.SelectedIndex = -1;
+            };
+
+            // Subscribe to make there is change in binding list rows resized
+            DataGridViewTrainingRecord.DataBindingComplete += (sender2, e2) => ResizeRows();
 
             TextBoxTrainee.TextChanged += (sender2, e2) => (ParentForm as MainForm).IsSaved = false;
             TextBoxPosition.TextChanged += (sender2, e2) => (ParentForm as MainForm).IsSaved = false;
             TextBoxManager.TextChanged += (sender2, e2) => (ParentForm as MainForm).IsSaved = false;
             TextBoxCourse.TextChanged += (sender2, e2) => (ParentForm as MainForm).IsSaved = false;
 
+
             // Subscribe to event to preserve checked state
             ListBoxTask.ItemCheck += ListBoxTask_ItemCheck;
+
+            // Subscribing to custom made painting method to make word-level wrap mode available
+            DataGridViewTrainingRecord.CellPainting += DataGridView_CellPainting;
+
+            // Subscribe to it to make text wrap in edit mode
+            DataGridViewTrainingRecord.EditingControlShowing += EditingControlTextWrap;
+
+            // Subscribe to event to set categorical values to required score
+            ComboBoxScoreCategory.SelectedValueChanged += ComboBoxScoreCategory_SelectChanged;
         }
+
+        private void ComboBoxScoreCategory_SelectChanged(object sender, EventArgs e)
+        {
+            foreach (TrainingRecord tr in DataGridViewTrainingRecord.DataSource as BindingList<TrainingRecord>)
+            {
+                switch (ComboBoxScoreCategory.SelectedIndex)
+                {
+                    case 0:
+                        tr.RequiredScore = tr.ScoreCategory1;
+                        break;
+                    case 1:
+                        tr.RequiredScore = tr.ScoreCategory2;
+                        break;
+                    case 2:
+                        tr.RequiredScore = tr.ScoreCategory3;
+                        break;
+                    case 3:
+                        tr.RequiredScore = tr.ScoreCategory4;
+                        break;
+                }
+            }
+            DataGridViewTrainingRecord.Refresh();
+        }
+
+        /// <summary>
+        /// This function is called with event, and makes sure when you are in edit mode, the text of 
+        /// editing control which is textBox is wrapped and the size of row changed depending on this wrap
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditingControlTextWrap(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (!(e.Control is TextBox tb)) return;
+
+            // Allow wraping in edit mode
+            tb.Multiline = true;
+            tb.WordWrap = true;
+
+            //tb.BorderStyle = BorderStyle.FixedSingle;
+
+            // When text changed in edit mode check if it is time to change height of row
+            // Desubscribe and subscribe to not subscribe over and over again to load ram
+            tb.TextChanged -= textChange;
+            tb.TextChanged += textChange;
+
+            void textChange(object sender2, EventArgs e2) {
+                using (Graphics g = this.CreateGraphics())
+                {
+                    // Measure height of cell
+                    SizeF sWrapped = g.MeasureString(tb.Text,
+                            DataGridViewTrainingRecord.DefaultCellStyle.Font, tb.Width);
+                    int _rowMaxHeight = (int)Math.Ceiling(sWrapped.Height);
+
+                    // Iterate through every cell in this row, because there can be bigger cells, then we dont need to increase height
+                    foreach (DataGridViewCell c in DataGridViewTrainingRecord.CurrentCell.OwningRow.Cells)
+                    {
+                        sWrapped = g.MeasureString(c.Value.ToString(),
+                            DataGridViewTrainingRecord.DefaultCellStyle.Font, c.OwningColumn.Width);
+
+                        _rowMaxHeight = (Math.Ceiling(sWrapped.Height) > _rowMaxHeight)
+                            ? (int)Math.Ceiling(sWrapped.Height) : _rowMaxHeight;
+                    }
+
+                    // Set height of the row
+                    DataGridViewTrainingRecord.CurrentCell.OwningRow.Height = (_rowMaxHeight > _rowDefaultHeight) ? _rowMaxHeight + 5 : _rowDefaultHeight;
+                }
+            }
+        }
+
+        /// <summary>
+        /// This method iterates through every row and cells inside row, resizes the rows based on cells'
+        /// content, basically this method is manually written autoResizeRow method
+        /// </summary>
+        private void ResizeRows()
+        {
+            // Iterate and calculate the size that cell value would take and find maximum of them
+            // then set the height to maximum
+
+            foreach (DataGridViewRow r in DataGridViewTrainingRecord.Rows)
+            {
+                int _rowMaxHeight = 0;
+                foreach (DataGridViewCell c in r.Cells)
+                {
+                    using (Graphics g = this.CreateGraphics())
+                    {
+                        SizeF sWrapped = g.MeasureString(c.Value.ToString(),
+                        DataGridViewTrainingRecord.DefaultCellStyle.Font,
+                        c.OwningColumn.Width);
+
+                        _rowMaxHeight = (Math.Ceiling(sWrapped.Height) > _rowMaxHeight)
+                            ? (int)Math.Ceiling(sWrapped.Height) : _rowMaxHeight;
+                    }
+                }
+
+                r.Height = (_rowMaxHeight > _rowDefaultHeight) ? _rowMaxHeight + 5 : _rowDefaultHeight;
+
+            }
+        }
+
+        /// <summary>
+        /// This method is for painting cells ourselves, when data grid view itself paints it, it does not wrap
+        /// words on word-level, it wraps only through spaces left between words. This method wraps on word-leve
+        /// and draws that on the screen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            // The WordWrap code is ony executed if requested the cell has a value, and if this is not the heading row.
+            if (e.Value == null || e.RowIndex < 0) return;
+
+            // Original word measured in rectangle size
+            SizeF sOriginal = e.Graphics.MeasureString(e.Value.ToString(), DataGridViewTrainingRecord.DefaultCellStyle.Font);
+
+
+            if (sOriginal.Width != e.CellBounds.Width)
+            {
+                // Is is MeasureString that determines the height given the width, so
+                // that it properly takes the actual wrapping into account
+                SizeF sWrapped = e.Graphics.MeasureString(e.Value.ToString(),
+                    DataGridViewTrainingRecord.DefaultCellStyle.Font,
+                    e.CellBounds.Width);
+
+                using (Brush gridBrush = new SolidBrush(this.DataGridViewTrainingRecord.GridColor),
+                    backColorBrush = new SolidBrush(e.CellStyle.BackColor),
+                    backColorBrushSelection = new SolidBrush(e.CellStyle.SelectionBackColor),
+                    fontBrush = new SolidBrush(e.CellStyle.ForeColor),
+                    fontBrushSelection = new SolidBrush(e.CellStyle.SelectionForeColor))
+                {
+
+                    // Color of the cells
+                    if (DataGridViewTrainingRecord[e.ColumnIndex, e.RowIndex].Selected)
+                        e.Graphics.FillRectangle(backColorBrushSelection, e.CellBounds);
+                    else e.Graphics.FillRectangle(backColorBrush, e.CellBounds);
+
+                    // The DrawLine calls restore the missing borders: which borders
+                    // miss and how to paint them depends on border style settings
+                    // Borders of the cells
+                    e.Graphics.DrawLines(new Pen(gridBrush, 1), new Point[] {
+                        new Point(e.CellBounds.X - 1, e.CellBounds.Y + e.CellBounds.Height - 1),
+                        new Point(e.CellBounds.X + e.CellBounds.Width - 1, e.CellBounds.Y + e.CellBounds.Height - 1),
+                        new Point(e.CellBounds.X + e.CellBounds.Width - 1, e.CellBounds.Y - 1),
+                        new Point(e.CellBounds.X + e.CellBounds.Width - 1, e.CellBounds.Y + e.CellBounds.Height - 1) });
+
+
+                    // The text is generated inside the row.
+                    if (DataGridViewTrainingRecord[e.ColumnIndex, e.RowIndex].Selected)
+                        e.Graphics.DrawString(e.Value.ToString(), DataGridViewTrainingRecord.DefaultCellStyle.Font,
+                            fontBrushSelection, e.CellBounds);
+                    else e.Graphics.DrawString(e.Value.ToString(), DataGridViewTrainingRecord.DefaultCellStyle.Font,
+                        fontBrush, e.CellBounds);
+
+                    e.Handled = true;
+                }
+            }
+        }
+
 
         /// <summary>
         /// Initializes data grid view, colors, columns etc, enough to call when page load
@@ -56,27 +235,21 @@ namespace MasterTrainingRecordsApp
         private void InitializeDataGridView()
         {
             // Some properties
-            DataGridViewTrainingRecord.ReadOnly = false;
             DataGridViewTrainingRecord.RowHeadersWidth = 25;
             DataGridViewTrainingRecord.DefaultCellStyle.DataSourceNullValue = string.Empty;
+            DataGridViewTrainingRecord.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+            DataGridViewTrainingRecord.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            DataGridViewTrainingRecord.DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopLeft;
 
             // Bound class to make it show column headers and define columns
             DataGridViewTrainingRecord.DataSource = new BindingList<TrainingRecord>();
 
             // Enable sort mode when clicked column header
-            for (int i = 0; i < 10; i++) DataGridViewTrainingRecord.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+            //for (int i = 0; i < 10; i++) DataGridViewTrainingRecord.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
 
             // Giving custom weights to columns to auto size based on weight
-            DataGridViewTrainingRecord.Columns[0].FillWeight = 7;
-            DataGridViewTrainingRecord.Columns[1].FillWeight = 20;
-            DataGridViewTrainingRecord.Columns[2].FillWeight = 6;
-            DataGridViewTrainingRecord.Columns[3].FillWeight = 4;
-            DataGridViewTrainingRecord.Columns[4].FillWeight = 8;
-            DataGridViewTrainingRecord.Columns[5].FillWeight = 8;
-            DataGridViewTrainingRecord.Columns[6].FillWeight = 10;
-            DataGridViewTrainingRecord.Columns[7].FillWeight = 10;
-            DataGridViewTrainingRecord.Columns[8].FillWeight = 6;
-            DataGridViewTrainingRecord.Columns[9].FillWeight = 6;
+            int[] weights = { 7, 20, 6, 4, 8, 8, 10, 10, 6, 6 };
+            for (int i = 0; i < 10; i++) DataGridViewTrainingRecord.Columns[i].FillWeight = weights[i];
 
             // Configure readonly property and colors
             int[] columns = { 0 };
@@ -90,6 +263,7 @@ namespace MasterTrainingRecordsApp
             {
                 DataGridViewTrainingRecord.Columns[col].DefaultCellStyle.BackColor = Color.FromArgb(255, 204, 255, 153);
             }
+
 
             // Subscribe this event to delete rows when 'delete' pressed
             DataGridViewTrainingRecord.KeyDown += DataGridView_RemoveRow;
