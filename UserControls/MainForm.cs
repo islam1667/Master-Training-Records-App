@@ -151,6 +151,10 @@ namespace MasterTrainingRecordsApp
             {
                 MenuItemSource.Text = "DBs (Not Loaded)";
             }
+
+            // Set saved to true because in initialization some events cause assigning fake false to isSaved
+            this.IsSaved = true;
+            this.Text = "Master Training Records";
         }
 
         /// <summary>
@@ -170,12 +174,13 @@ namespace MasterTrainingRecordsApp
                 DialogResult result = dialog.ShowDialog();
             }
 
-            MessageBox.Show("DBs source loaded succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            MenuItemSource.Text = "DBs (Loaded)";
-            ExcelOperations.ReadDBExcelFile(ExcelOperations.DataBaseExcelFilePath);
-
-            // Initializing list box again to fill it with records previously read database
-            UserControlFilePage.InitializeListBoxTask();
+            if (ExcelOperations.ReadDBExcelFile(ExcelOperations.DataBaseExcelFilePath) != null)
+            {
+                MessageBox.Show("DBs source loaded succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MenuItemSource.Text = "DBs (Loaded)";
+                // Initializing list box again to fill it with records previously read database
+                UserControlFilePage.InitializeListBoxTask();
+            }
         }
 
         /// <summary>

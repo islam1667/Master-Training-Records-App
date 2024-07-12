@@ -95,7 +95,7 @@ namespace MasterTrainingRecordsApp
         public static void AddToHistoryXml(string filePath)
         {
             // Prevent errors with null check
-            if (!File.Exists(XmlFilePath) || XDocument.Load(XmlFilePath).Root != null) return;
+            if (!File.Exists(XmlFilePath) || XDocument.Load(XmlFilePath).Root == null) return;
 
             XDocument xmlDoc = XDocument.Load(XmlFilePath);
 

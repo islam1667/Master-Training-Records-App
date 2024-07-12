@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -44,14 +43,14 @@ namespace MasterTrainingRecordsApp
 
             // Subscribe events to track unsaved changes
             DataGridViewTrainingRecord.CellValueChanged += (sender2, e2) => { ResizeRows(); (ParentForm as MainForm).IsSaved = false; };
-            (DataGridViewTrainingRecord.DataSource as BindingList<TrainingRecord>).ListChanged += (sender2, e2) =>
-            {
+
+            // Subscribe to make there is change in binding list rows resized, and unsaved changes
+            DataGridViewTrainingRecord.DataBindingComplete += (sender2, e2) => {
                 (ParentForm as MainForm).IsSaved = false;
                 ComboBoxScoreCategory.SelectedIndex = -1;
+                // Update row sizes
+                ResizeRows();
             };
-
-            // Subscribe to make there is change in binding list rows resized
-            DataGridViewTrainingRecord.DataBindingComplete += (sender2, e2) => ResizeRows();
 
             TextBoxTrainee.TextChanged += (sender2, e2) => (ParentForm as MainForm).IsSaved = false;
             TextBoxPosition.TextChanged += (sender2, e2) => (ParentForm as MainForm).IsSaved = false;
@@ -70,12 +69,19 @@ namespace MasterTrainingRecordsApp
 
             // Subscribe to event to set categorical values to required score
             ComboBoxScoreCategory.SelectedValueChanged += ComboBoxScoreCategory_SelectChanged;
+
+            // When database loads on app start data grid view causes bindingComplete event to fire which makes isSaved false
+            // so when we initialize isSaved fake changes, so we reset it
+            (ParentForm as MainForm).Text = "Master Training Records";
+            (ParentForm as MainForm).IsSaved = true;
         }
 
         private void ComboBoxScoreCategory_SelectChanged(object sender, EventArgs e)
         {
             foreach (TrainingRecord tr in DataGridViewTrainingRecord.DataSource as BindingList<TrainingRecord>)
             {
+                // Which category selected, set required score of training record to that category
+                // binding list will automatically change the data grid view
                 switch (ComboBoxScoreCategory.SelectedIndex)
                 {
                     case 0:
@@ -143,6 +149,7 @@ namespace MasterTrainingRecordsApp
         /// <summary>
         /// This method iterates through every row and cells inside row, resizes the rows based on cells'
         /// content, basically this method is manually written autoResizeRow method
+        /// this method is subscribed by some events to resize the rows after data change
         /// </summary>
         private void ResizeRows()
         {
@@ -228,7 +235,6 @@ namespace MasterTrainingRecordsApp
             }
         }
 
-
         /// <summary>
         /// Initializes data grid view, colors, columns etc, enough to call when page load
         /// </summary>
@@ -239,6 +245,7 @@ namespace MasterTrainingRecordsApp
             DataGridViewTrainingRecord.DefaultCellStyle.DataSourceNullValue = string.Empty;
             DataGridViewTrainingRecord.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
             DataGridViewTrainingRecord.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            // To make text box not slide bottom when edit mode opened
             DataGridViewTrainingRecord.DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopLeft;
 
             // Bound class to make it show column headers and define columns
@@ -247,7 +254,7 @@ namespace MasterTrainingRecordsApp
             // Enable sort mode when clicked column header
             //for (int i = 0; i < 10; i++) DataGridViewTrainingRecord.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
 
-            // Giving custom weights to columns to auto size based on weight
+            // Giving custom weights to columns to auto size columns width based on weight
             int[] weights = { 7, 20, 6, 4, 8, 8, 10, 10, 6, 6 };
             for (int i = 0; i < 10; i++) DataGridViewTrainingRecord.Columns[i].FillWeight = weights[i];
 
@@ -258,6 +265,7 @@ namespace MasterTrainingRecordsApp
                 DataGridViewTrainingRecord.Columns[col].ReadOnly = true;
                 DataGridViewTrainingRecord.Columns[col].DefaultCellStyle.BackColor = Color.IndianRed;
             }
+            // Assigning green color
             columns = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             foreach (int col in columns)
             {

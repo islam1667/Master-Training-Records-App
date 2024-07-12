@@ -87,7 +87,7 @@ namespace MasterTrainingRecordsApp
         }
 
         /// <summary>
-        /// Stores records of database in a list
+        /// Stores records of database in a list, all database records are stored here
         /// </summary>
         public static List<TrainingRecord> RecordsDatabase { get; private set; } = new List<TrainingRecord>();
 
@@ -195,7 +195,6 @@ namespace MasterTrainingRecordsApp
         private static ExcelPackage InitializeExcelTemplate()
         {
             ExcelPackage package = new ExcelPackage();
-            package.Compatibility.IsWorksheets1Based = true;
 
             // Add a worksheet to the Excel package and worksheet for category
             ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Records of Training");
@@ -283,15 +282,18 @@ namespace MasterTrainingRecordsApp
         /// <returns>List of records that read</returns>
         public static List<TrainingRecord> ReadDBExcelFile(List<string> filePaths)
         {
+            // If there is no file path do nothing
+            if (filePaths == null) return null;
+
             // Clear previously added records, because new db is read and records from this db will be added
-            RecordsDatabase.Clear();
+            if (RecordsDatabase != null && RecordsDatabase.Count != 0) RecordsDatabase.Clear();
 
             foreach (string filePath in filePaths)
                 // Open the Excel file using ExcelPackage
                 using (ExcelPackage package = new ExcelPackage(filePath))
                 {
                     // Get the first page of excel file
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
 
                     // Prevent errors occur with null check
                     if (worksheet == null)
@@ -368,14 +370,21 @@ namespace MasterTrainingRecordsApp
         {
             using (ExcelPackage package = new ExcelPackage(filePath))
             {
+                // Prevent errors occur with sheet count check
+                if (package.Workbook.Worksheets.Count != 2)
+                {
+                    MessageBox.Show("Error reading Excel file, first or second worksheet null", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+
                 // Get the first worksheet in the workbook and category worksheet
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
                 ExcelWorksheet catWorksheet = package.Workbook.Worksheets[1];
 
                 // Prevent errors occur with null check
-                if (worksheet == null)
+                if (worksheet == null || catWorksheet == null)
                 {
-                    MessageBox.Show("Error reading Excel file, worksheet null", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error reading Excel file, first or second worksheet null", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return null;
                 }
 
@@ -438,8 +447,8 @@ namespace MasterTrainingRecordsApp
                 // Second worksheet will contain reference, cat1, cat2, cat3, cat4
 
                 // Add a worksheet to the Excel package
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
-                ExcelWorksheet catWorksheet = package.Workbook.Worksheets[2];
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                ExcelWorksheet catWorksheet = package.Workbook.Worksheets[1];
 
                 // Write member(trainee) info to file
                 worksheet.Cells["B1"].Value = memberInfo.Trainee;
@@ -461,7 +470,7 @@ namespace MasterTrainingRecordsApp
                 }
 
                 // Write score categories to categryWorksheet
-                for (int row = 2; row < records.LongCount(); row++) {
+                for (int row = 2; row < records.LongCount() + 2; row++) {
                     catWorksheet.Cells[row, 1].Value = records[row - 2].ScoreCategory1;
                     catWorksheet.Cells[row, 2].Value = records[row - 2].ScoreCategory2;
                     catWorksheet.Cells[row, 3].Value = records[row - 2].ScoreCategory3;
